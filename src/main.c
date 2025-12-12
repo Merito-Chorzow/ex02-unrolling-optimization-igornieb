@@ -7,18 +7,21 @@ static unsigned sum8_c(const uint8_t* p, unsigned n) {
   return acc;
 }
 
-/* TODO: Zaimplementuj wersję z unrolling ×4 (C lub ASM) */
+/* Unrolling ×4 — cztery elementy na iterację */
 unsigned sum8_unroll4(const uint8_t* p, unsigned n) {
-  /* WERSJA STARTOWA — nieoptymalna, do podmiany */
   unsigned acc=0;
   unsigned i=0;
-  for (; i+3<n; i+=4) {
-    acc += p[i+0];
-    acc += p[i+1];
-    acc += p[i+2];
-    acc += p[i+3];
+  /* Główna pętla — 4 elementy na raz */
+  while (i+3 < n) {
+    acc += p[i++];
+    acc += p[i++];
+    acc += p[i++];
+    acc += p[i++];
   }
-  for (; i<n; ++i) acc += p[i];
+  /* Reszta */
+  while (i < n) {
+    acc += p[i++];
+  }
   return acc;
 }
 
